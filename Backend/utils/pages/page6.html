@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, #d4eef3 0%, #e8f6f8 50%, #e5fcff 100%);
+  }
+
+  .page {
+    width: 595px;
+    height: 842px;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(180deg, #d4eef3 0%, #e8f6f8 50%, #e5fcff 100%);
+    padding-top: 80px;
+  }
+
+  .logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+
+  .page-tag {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    background: rgba(31,128,147,0.08);
+    padding: 6px 22px;
+    border-radius: 9999px;
+    font-size: 14px;
+    color: #7e8c9a;
+  }
+
+  .header-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(31,128,147,0.2);
+    margin: 20px auto 25px;
+  }
+
+  .title {
+    font-size: 36px;
+    font-weight: 600;
+    color: #1f8093;
+    padding-left: 16px;
+    margin-top: 0;
+  }
+
+  .underline {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #1f8093, rgba(31,128,147,0.5));
+    border-radius: 9999px;
+    margin-top: 8px;
+    margin-left: 16px;
+  }
+
+  .functional-wrapper {
+    margin-top: 30px;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .func-card {
+    background: white;
+    border-radius: 10px;
+    padding: 12px 20px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Dynamic border colors */
+  .green { border-left: 3px solid #00C448; }
+  .orange { border-left: 3px solid #FE7B02; }
+  .red { border-left: 3px solid #F34E1B; }
+
+  .func-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .func-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(31,128,147,0.1);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .func-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: #1f8093;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .func-title {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .func-status {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .status-pill {
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .status-pill.green { color: #00C448; background: #E8F9EE; }
+  .status-pill.orange { color: #FE7B02; background: #FFF3E8; }
+  .status-pill.red { color: #F34E1B; background: #FFE9E6; }
+
+  .footer-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(31,128,147,0.2);
+    position: absolute;
+    bottom: 50px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: #808080;
+    position: absolute;
+    bottom: 22px;
+    width: 100%;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="logo">
+    <img src="../assets/provencodee.png" alt="The Proven Code">
+  </div>
+
+  <div class="page-tag">Page 6</div>
+
+  <div class="header-line"></div>
+
+  <div class="title">Functional Assessment</div>
+  <div class="underline"></div>
+
+  <div class="functional-wrapper">
+
+    <!-- ===================== CARD TEMPLATE ========================= -->
+    <!-- Each card uses: 
+      {{calculatedData.statuses.FS#}} → Within/Borderline/Elevated
+      {{calculatedData.scores.FS#}} → numeric score (0–10)
+    -->
+
+    <!-- CARD 1 -->
+    <div class="func-card {{calculatedData.statusColors.FS1}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="func-title">Digestive Rhythm</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS1}}">
+          {{calculatedData.statuses.FS1}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="func-card {{calculatedData.statusColors.FS2}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L12 22M8 6L16 6M8 10L16 10M10 14L14 14"/>
+          </svg>
+        </div>
+        <div class="func-title">Fermentation Load</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS2}}">
+          {{calculatedData.statuses.FS2}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="func-card {{calculatedData.statusColors.FS3}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="3"/>
+            <circle cx="6" cy="16" r="2"/>
+            <circle cx="18" cy="16" r="2"/>
+            <circle cx="12" cy="18" r="1.5"/>
+          </svg>
+        </div>
+        <div class="func-title">Bacterial Balance</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS3}}">
+          {{calculatedData.statuses.FS3}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="func-card {{calculatedData.statusColors.FS4}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M8 12L12 16M16 12L12 16"/>
+          </svg>
+        </div>
+        <div class="func-title">Yeast Balance</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS4}}">
+          {{calculatedData.statuses.FS4}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 5 -->
+    <div class="func-card {{calculatedData.statusColors.FS5}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L4 6v6c0 5 3 9 8 11 5-2 8-6 8-11V6l-8-4z"/>
+          </svg>
+        </div>
+        <div class="func-title">Immune Tone</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS5}}">
+          {{calculatedData.statuses.FS5}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 6 -->
+    <div class="func-card {{calculatedData.statusColors.FS6}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8 9h.01M16 9h.01M9 14h6"/>
+          </svg>
+        </div>
+        <div class="func-title">Gut- Brain Stress</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS6}}">
+          {{calculatedData.statuses.FS6}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 7 -->
+    <div class="func-card {{calculatedData.statusColors.FS7}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </div>
+        <div class="func-title">Circadian Sleep</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS7}}">
+          {{calculatedData.statuses.FS7}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 8 -->
+    <div class="func-card {{calculatedData.statusColors.FS8}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/>
+          </svg>
+        </div>
+        <div class="func-title">Diet Quality</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS8}}">
+          {{calculatedData.statuses.FS8}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 9 -->
+    <div class="func-card {{calculatedData.statusColors.FS9}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="4"/>
+          </svg>
+        </div>
+        <div class="func-title">Medication Impact</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS9}}">
+          {{calculatedData.statuses.FS9}}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 10 -->
+    <div class="func-card {{calculatedData.statusColors.FS10}}">
+      <div class="func-header">
+        <div class="func-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+          </svg>
+        </div>
+        <div class="func-title">Hydration Recovery</div>
+      </div>
+      <div class="func-status">
+        <div class="status-pill {{calculatedData.statusColors.FS10}}">
+          {{calculatedData.statuses.FS10}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-line"></div>
+  <div class="footer">Microbiome Health Check Report — Version 7.0</div>
+
+</div>
+
+</body>
+</html>
