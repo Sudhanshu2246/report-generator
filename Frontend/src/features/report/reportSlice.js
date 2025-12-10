@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Axios setup
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://report-generator-ritn.onrender.com/api",
   timeout: 30000,
 });
 
