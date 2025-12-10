@@ -31,6 +31,13 @@
   // GET PDF
   router.get('/:id/pdf', authenticate, getReportPDF);
 
+  // Puppeteer health check
+  router.get('/puppeteer-health', authenticate, async (req, res) => {
+    // controller implemented in reportController.puppeteerHealth
+    const { puppeteerHealth } = await import('../controllers/reportController.js');
+    return puppeteerHealth(req, res);
+  });
+
   // GET ALL REPORTS
   router.get('/', authenticate, getAllReports);
 

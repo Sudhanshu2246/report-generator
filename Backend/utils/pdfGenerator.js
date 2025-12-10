@@ -2996,10 +2996,70 @@ const buildFullHTML = (report) => {
 --------------------------------------------------------- */
 
 export const generatePDF = async (report, outputPath = null) => {
-  const browser = await puppeteer.launch({
+  // Try to launch the bundled browser first, then fall back to common
+  // system Chrome/Chromium executables if the bundled browser is not available.
+  const defaultLaunchOptions = {
     headless: "new",
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
-  });
+  };
+
+  const findChromeExecutable = () => {
+    const candidates = [];
+
+    // Respect environment variables that deployers may set
+    if (process.env.PUPPETEER_EXECUTABLE_PATH) candidates.push(process.env.PUPPETEER_EXECUTABLE_PATH);
+    if (process.env.CHROME_PATH) candidates.push(process.env.CHROME_PATH);
+    if (process.env.GOOGLE_CHROME_BIN) candidates.push(process.env.GOOGLE_CHROME_BIN);
+
+    // Common Linux locations
+    candidates.push('/usr/bin/google-chrome-stable');
+    candidates.push('/usr/bin/google-chrome');
+    candidates.push('/usr/bin/chromium-browser');
+    candidates.push('/usr/bin/chromium');
+
+    // Common Windows locations
+    candidates.push('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe');
+    candidates.push('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe');
+
+    for (const p of candidates) {
+      try {
+        if (!p) continue;
+        if (fs.existsSync(p)) return p;
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    return null;
+  };
+
+  let browser;
+  try {
+    browser = await puppeteer.launch(defaultLaunchOptions);
+  } catch (initialErr) {
+    // If the error indicates Chrome couldn't be found, try fallbacks
+    const execPath = findChromeExecutable();
+    if (execPath) {
+      try {
+        browser = await puppeteer.launch({ ...defaultLaunchOptions, executablePath: execPath });
+      } catch (secondErr) {
+        console.error('[pdfGenerator] Failed launching Puppeteer with fallback executablePath:', execPath, secondErr);
+        throw new Error(`PDF generation failed: ${secondErr.message}`);
+      }
+    } else {
+      // Provide actionable guidance in the error message for maintainers/deployers
+      const guidance =
+        'Could not find a Chromium/Chrome executable.\n' +
+        'Make sure either:\n' +
+        ' 1) the server has Chrome/Chromium installed and reachable, or\n' +
+        ' 2) you install Puppeteer\'s browser during build (for example run "npx puppeteer browsers install chrome"), or\n' +
+        ' 3) set the environment variable PUPPETEER_EXECUTABLE_PATH or CHROME_PATH to the browser path.\n' +
+        'Searched common locations and env vars.';
+
+      console.error('[pdfGenerator] ' + guidance, initialErr);
+      throw new Error(`PDF generation failed: ${initialErr.message}. Guidance: ${guidance}`);
+    }
+  }
 
   try {
     const page = await browser.newPage();

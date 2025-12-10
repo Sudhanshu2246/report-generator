@@ -70,6 +70,20 @@ return res.end(pdfBuffer);
   }
 };
 
+// Puppeteer health check - attempts to launch and close browser
+export const puppeteerHealth = async (req, res) => {
+  try {
+    // Lightweight check: try to spawn browser with same options used in generator
+    const puppeteer = await import('puppeteer');
+    const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'], timeout: 20000 });
+    await browser.close();
+    return res.json({ healthy: true, message: 'Puppeteer launched successfully' });
+  } catch (err) {
+    console.error('Puppeteer health check failed:', err);
+    return res.status(500).json({ healthy: false, message: 'Puppeteer failed to launch', error: err.message });
+  }
+};
+
 // GET ALL REPORTS
 export const getAllReports = async (req, res) => {
   try {

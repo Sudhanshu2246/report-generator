@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Axios setup
 const API = axios.create({
-  baseURL: "https://mhc-report-generator.onrender.com/api",
+  baseURL: "http://localhost:5000/api",
   timeout: 30000,
 });
 
